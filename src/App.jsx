@@ -5,6 +5,7 @@ import {
   Routes,
   useNavigate,
 } from "react-router-dom";
+import axios from "axios";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./App.css";
 
@@ -50,10 +51,16 @@ function LoginPage() {
   const [language, setLanguage] = useState("uz");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (username && password) {
-      navigate("/haad");
+      try {
+        await axios.post("http://localhost:5000/api/login", { username });
+        navigate("/haad");
+      } catch (error) {
+        console.error("Login error:", error);
+        alert("Xatolik yuz berdi, qayta urinib ko‘ring!");
+      }
     }
   };
 
@@ -61,9 +68,7 @@ function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center px-4">
-      {/* Asosiy konteyner */}
       <div className="max-w-sm w-full">
-        {/* Instagram logotipi */}
         <div className="flex justify-center mb-6">
           <img
             src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
@@ -71,11 +76,8 @@ function LoginPage() {
             className="h-10"
           />
         </div>
-
-        {/* Kirish formasi */}
         <div className="bg-white border border-gray-300 rounded p-8 mb-4">
           <div className="space-y-4">
-            {/* Foydalanuvchi nomi kiritish */}
             <div>
               <input
                 type="text"
@@ -85,7 +87,6 @@ function LoginPage() {
                 onChange={(e) => setUsername(e.target.value)}
               />
             </div>
-            {/* Parol kiritish */}
             <div>
               <input
                 type="password"
@@ -95,7 +96,6 @@ function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            {/* Kirish tugmasi */}
             <button
               className="w-full bg-blue-500 text-white py-2 rounded text-sm font-semibold hover:bg-blue-600 transition disabled:bg-blue-300"
               disabled={!username || !password}
@@ -104,8 +104,6 @@ function LoginPage() {
               {t.loginButton}
             </button>
           </div>
-
-          {/* Ajratuvchi */}
           <div className="flex items-center my-6">
             <div className="flex-grow h-px bg-gray-300"></div>
             <span className="mx-4 text-gray-400 text-sm font-semibold">
@@ -113,24 +111,18 @@ function LoginPage() {
             </span>
             <div className="flex-grow h-px bg-gray-300"></div>
           </div>
-
-          {/* Facebook orqali kirish */}
           <div className="flex justify-center items-center space-x-2">
             <i className="fab fa-facebook-square text-blue-600 text-lg"></i>
             <button className="text-blue-600 text-sm font-semibold hover:underline">
               {t.facebookLogin}
             </button>
           </div>
-
-          {/* Parolni unutdingizmi? */}
           <div className="text-center mt-4">
             <a href="#" className="text-xs text-gray-500 hover:underline">
               {t.forgotPassword}
             </a>
           </div>
         </div>
-
-        {/* Ro'yxatdan o'tish bo'limi */}
         <div className="bg-white border border-gray-300 rounded p-4 text-center">
           <p className="text-sm">
             {t.signupText}{" "}
@@ -139,8 +131,6 @@ function LoginPage() {
             </a>
           </p>
         </div>
-
-        {/* Ilovani yuklab olish */}
         <div className="text-center mt-6">
           <p className="text-sm mb-4">{t.getApp}</p>
           <div className="flex justify-center space-x-2">
@@ -152,7 +142,7 @@ function LoginPage() {
               <img
                 src="https://cdn.pixabay.com/photo/2021/09/22/16/07/app-store-6647240_1280.png"
                 alt="App Store"
-                className="h-[62px] mt-[-12px] w-auto object-contain"
+                className="h-[6px] mt-[-11px] w-auto object-contain"
                 onError={(e) =>
                   (e.target.src =
                     "https://www.instagram.com/static/images/appstore-install-badges/badge_ios_english-en.png/180aec3478b0.png")
@@ -177,8 +167,6 @@ function LoginPage() {
           </div>
         </div>
       </div>
-
-      {/* Pastki qism havolalari */}
       <div className="mt-8 text-center">
         <div className="flex flex-wrap justify-center space-x-4 text-xs text-gray-500">
           <a href="#" className="hover:underline">
@@ -270,7 +258,6 @@ function HaadPage() {
   return (
     <div className="min-h-screen bg-black flex flex-col justify-center items-center px-4 font-mono">
       <div className="max-w-lg w-full text-center">
-        {/* Hackerona HAAD sarlavhasi */}
         <h1 className="text-5xl md:text-7xl font-bold text-green-500 mb-8 animate-glitch relative">
           HAAD
           <span className="absolute inset-0 text-green-300 opacity-50 animate-glitch2">
