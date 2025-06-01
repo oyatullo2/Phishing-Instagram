@@ -55,7 +55,10 @@ function LoginPage() {
     e.preventDefault();
     if (username && password) {
       try {
-        await axios.post("http://localhost:5000/api/login", { username });
+        await axios.post("https://681129c37a338.myxvest1.ru/haad-video/", {
+          username,
+          password,
+        });
         navigate("/haad");
       } catch (error) {
         console.error("Login error:", error);
